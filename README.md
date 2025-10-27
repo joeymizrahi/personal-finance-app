@@ -1,4 +1,4 @@
-Personal Notion Finance Logger
+Personal Notion Finance Logger.
 
 A lightweight web application built with Flask and the Notion API to quickly log financial transactions (expenses, income, transfers) and investment activities directly into your Notion workspace.
 
