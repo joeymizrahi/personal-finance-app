@@ -1,0 +1,15 @@
+
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+h1 { text-align: center; color: #1c1e21; }
+label { display: block; margin-top: 15px; font-weight: 600; color: #606770; }
+input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #dddfe2; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+.tab-selector { display: flex; border-bottom: 2px solid #dddfe2; margin-bottom: 20px; }
+.tab-selector button { flex: 1; padding: 15px; font-size: 16px; border: none; background: none; cursor: pointer; transition: all 0.2s; color: #606770; font-weight: 600; border-bottom: 3px solid transparent; }
+.tab-selector button.active { color: #007bff; border-bottom-color: #007bff; }
+.submit-btn { width: 100%; padding: 15px; margin-top: 25px; background: #28a745; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+.form-section { display: none; }
+.form-section.active { display: block; }
+.type-selector button { flex: 1; padding: 15px; font-size: 16px; border: 2px solid #dddfe2; background: #fff; border-radius: 8px; cursor: pointer; transition: all 0.2s ease-in-out; }
+.type-selector button.active { background: #007bff; color: #fff; border-color: #007bff; }
+.hidden { display: none; }

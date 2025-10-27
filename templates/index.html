@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Transaction</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Log Entry</h1>
+        <div class="tab-selector">
+            <button type="button" id="tab-expense" class="active" onclick="showTab('expense')">Expense / Income</button>
+            <button type="button" id="tab-investment" onclick="showTab('investment')">Investment</button>
+        </div>
+        <div id="form-expense" class="form-section active">
+            <form method="post" action="{{ url_for('log_transaction') }}">
+                <input type="hidden" id="type" name="type" value="expense">
+                <input type="hidden" id="category_id" name="category_id">
+                <div class="type-selector" style="display: flex; gap: 10px;">
+                     <button type="button" id="expense-btn" class="active" onclick="setType('expense')">Expense</button>
+                     <button type="button" id="income-btn" onclick="setType('income')">Income</button>
+                     <button type="button" id="transfer-btn" onclick="setType('transfer')">Transfer</button>
+                </div>
+                <div id="description_wrapper">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" required>
+                </div>
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency">
+                    <option value="ILS" selected>ILS</option>
+                    <option value="USD">USD</option>
+                </select>
+                <label for="from_account_id" id="from_account_label">Account</label>
+                <select id="from_account_id" name="from_account_id" required>
+                    {% for account in non_investment_accounts %}<option value="{{ account.id }}">{{ account.name }}</option>{% endfor %}
+                </select>
+                <div id="to_account_wrapper" class="hidden">
+                    <label for="to_account_id">To Account</label>
+                    <select id="to_account_id" name="to_account_id">
+                         {% for account in non_investment_accounts %}<option value="{{ account.id }}">{{ account.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div id="category_fields_wrapper">
+                    <label for="parent_category">Parent Category</label>
+                    <select id="parent_category" name="parent_category">
+                        <option value="" disabled selected>-- Select a Parent --</option>
+                    </select>
+                    <div id="sub_category_wrapper" class="hidden">
+                        <label for="sub_category">Sub-Category</label>
+                        <select id="sub_category" name="sub_category"></select>
+                    </div>
+                </div>
+                <div id="pillar_field_wrapper">
+                    <label for="pillar_id">Pillar</label>
+                    <select id="pillar_id" name="pillar_id">
+                        {% for pillar in pillars %}<option value="{{ pillar.id }}">{{ pillar.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Log Transaction</button>
+            </form>
+        </div>
+        <div id="form-investment" class="form-section">
+            <form method="post" action="{{ url_for('log_investment') }}">
+                <label for="inv_action">Action</label>
+                <select id="inv_action" name="action" required>
+                    <option value="Buy">Buy</option>
+                    <option value="Sell">Sell</option>
+                    <option value="Money Conversion">Money Conversion</option>
+                    <option value="Deposit">Deposit</option>
+                    <option value="Withdrawal">Withdrawal</option>
+                    <option value="Dividend">Dividend</option>
+                    <option value="Fee/Expense">Fee/Expense</option>
+                </select>
+                <label for="inv_account">Account</label>
+                <select id="inv_account" name="account_id" required>
+                    {% for account in investment_accounts %}<option value="{{ account.id }}">{{ account.name }}</option>{% endfor %}
+                </select>
+                <div id="trading_fields_wrapper">
+                    <div id="ticker_field_wrapper">
+                        <label for="inv_ticker">Ticker</label>
+                        <input type="text" id="inv_ticker" name="ticker">
+                    </div>
+                    <div id="quantity_field_wrapper">
+                        <label for="inv_quantity">Quantity</label>
+                        <input type="number" id="inv_quantity" name="quantity" step="any">
+                    </div>
+                    <label for="inv_price">Price Per Share USD</label>
+                    <input type="number" id="inv_price" name="price_per_share" step="any">
+                    <div id="fees_field_wrapper">
+                        <label for="inv_fees">Trading Fees USD</label>
+                        <input type="number" id="inv_fees" name="fees" step="any">
+                    </div>
+                </div>
+                <div id="conversion_fields_wrapper" class="hidden">
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;"><label for="inv_from_amount">From Amount</label><input type="number" id="inv_from_amount" name="from_amount" step="any"></div>
+                        <div style="flex: 1;"><label for="inv_from_currency">From Currency</label><select id="inv_from_currency" name="from_currency"><option value="ILS" selected>ILS</option><option value="USD">USD</option></select></div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;"><label for="inv_to_amount">To Amount</label><input type="number" id="inv_to_amount" name="to_amount" step="any"></div>
+                        <div style="flex: 1;"><label for="inv_to_currency">To Currency</label><select id="inv_to_currency" name="to_currency"><option value="USD" selected>USD</option><option value="ILS">ILS</option></select></div>
+                    </div>
+                    <label for="inv_conversion_rate">Conversion Rate</label><input type="number" id="inv_conversion_rate" name="conversion_rate" step="0.000001">
+                    <label for="inv_conversion_fee">Conversion Fee USD</label><input type="number" id="inv_conversion_fee" name="conversion_fee" step="any">
+                </div>
+                <button type="submit" class="submit-btn">Log Investment</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
